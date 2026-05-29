@@ -301,7 +301,7 @@
 
     /* ── Products ──────────────────────────────────────────────── */
     #productos {
-      padding: 96px 0 32px;
+      padding: 48px 0 32px;
       text-align: center;
     }
 
@@ -359,7 +359,7 @@
     }
 
     .product-img {
-      height: 180px;
+      height: 240px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -589,14 +589,15 @@
     }
 
     .cta-card-photo {
-      height: 200px;
+      height: 320px;
       overflow: hidden;
+      background: var(--cream-dark);
     }
 
     .cta-card-photo img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       transition: transform 0.5s ease;
     }
 
@@ -721,11 +722,11 @@
     }
 
     .footer-col-title {
-      font-size: 0.8rem;
+      font-size: 1.1rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #a5d6a7;
+      color: #eae43e;
       margin-bottom: 14px;
     }
 
@@ -737,7 +738,7 @@
     }
 
     .footer-links a {
-      font-size: 0.88rem;
+      font-size: 0.8rem;
       color: rgba(255,255,255,0.7);
       transition: color var(--transition);
     }
@@ -759,7 +760,7 @@
       border: 1px solid rgba(255,255,255,0.15);
       border-radius: 100px;
       padding: 6px 14px 6px 8px;
-      font-size: 0.82rem;
+      font-size: 1.1rem;
       color: rgba(255,255,255,0.75);
       transition: background 0.25s ease, color 0.25s ease;
       text-decoration: none;
@@ -890,15 +891,15 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: rgba(0, 0, 0, 0.88);
-      align-items: center;
-      justify-content: center;
-      cursor: zoom-out;
-      animation: lbFadeIn 0.2s ease;
     }
 
     .lightbox.active {
       display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.88);
+      cursor: zoom-out;
+      animation: lbFadeIn 0.2s ease;
     }
 
     .lightbox img {
@@ -1012,13 +1013,13 @@
 
         <div class="hero-stats">
           <div>
-            <div class="hero-stat-value">+15</div>
+            <div class="hero-stat-value" data-target="15" data-prefix="+">0</div>
             <div class="hero-stat-label">Años de experiencia</div>
           </div>
           <div>
-            <div class="hero-stat-value">+5000</div>
+            <div class="hero-stat-value" data-target="100" data-prefix="+">0</div>
             <div class="hero-stat-label">Clientes</div>
-        </div>
+          </div>
         </div>
       </div>
 
@@ -1028,10 +1029,11 @@
           <img
             class="hero-product-img"
             src="Logo.png"
-            alt="Aceite Vegetal MaxiLike 18L"
+            alt="MaxiLike"
           />
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -1116,6 +1118,9 @@ producto final. Caja 15 kg.</p>
           <p class="product-desc">Elaboración de toda clase de panes aportando elasticidad a la masa, miga uniforme, cortezas duras, doradas y atractivas y aumento en la frescura del pan. Su sabor láctico permite resaltar y obtener un mejor sabor. Caja 15 kg.</p>
         </div>
       </div>
+
+    </div> <!-- /products-grid margarinas -->
+  </div> <!-- /container -->
 </section>
 
 <!-- ══ Contact ═══════════════════════════════════════════════════ -->
@@ -1261,21 +1266,34 @@ producto final. Caja 15 kg.</p>
     }
   });
 
-  document.getElementById('contactForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const btn = this.querySelector('.form-submit');
-    btn.textContent = 'Enviando...';
-    btn.disabled = true;
-    setTimeout(() => {
-      document.getElementById('formSuccess').style.display = 'block';
-      btn.textContent = 'Enviar mensaje →';
-      btn.disabled = false;
-      this.reset();
-      document.getElementById('formSuccess').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 1200);
-  });
-
   const nav = document.querySelector('nav');
+  // ── Contador animado ────────────────────────────────────────
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const prefix = el.dataset.prefix || '';
+    const duration = 1800;
+    let startTime = null;
+
+    function update(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 4);
+      el.textContent = prefix + Math.floor(ease * target);
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = prefix + target;
+      }
+    }
+    requestAnimationFrame(update);
+  }
+
+  // Arranca los contadores 600ms después de cargar la página
+  setTimeout(() => {
+    document.querySelectorAll('.hero-stat-value[data-target]').forEach(animateCounter);
+  }, 600);
+
   window.addEventListener('scroll', () => {
     nav.style.boxShadow = window.scrollY > 10
       ? '0 2px 20px rgba(0,0,0,0.1)'
@@ -1283,32 +1301,40 @@ producto final. Caja 15 kg.</p>
   });
 
   // ── Lightbox ────────────────────────────────────────────────
-  const lightbox     = document.getElementById('lightbox');
-  const lightboxImg  = document.getElementById('lightboxImg');
+  const lightbox      = document.getElementById('lightbox');
+  const lightboxImg   = document.getElementById('lightboxImg');
   const lightboxClose = document.getElementById('lightboxClose');
 
-  // Al hacer clic en cualquier imagen de producto, abre el lightbox
-  document.querySelectorAll('.product-img img').forEach(img => {
-    img.addEventListener('click', () => {
-      lightboxImg.src = img.src;
-      lightboxImg.alt = img.alt;
-      lightbox.classList.add('active');
-      document.body.style.overflow = 'hidden'; // evita scroll de fondo
-    });
+  // Poner cursor zoom-in a todos los recuadros con imagen real
+  document.querySelectorAll('.product-img').forEach(box => {
+    if (box.querySelector('img')) box.style.cursor = 'zoom-in';
   });
 
-  // Cerrar al hacer clic en el fondo o en la X
+  // Event delegation — escucha clicks en todo el documento
+  document.addEventListener('click', function(e) {
+    // Busca si el click fue dentro de un .product-img
+    const box = e.target.closest('.product-img');
+    if (box) {
+      const img = box.querySelector('img');
+      if (img && img.src) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt || '';
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      return;
+    }
+    // Cierra si hace clic en el fondo del lightbox
+    if (e.target === lightbox) closeLightbox();
+  });
+
   function closeLightbox() {
     lightbox.classList.remove('active');
     document.body.style.overflow = '';
   }
 
-  lightbox.addEventListener('click', e => {
-    if (e.target === lightbox) closeLightbox();
-  });
   lightboxClose.addEventListener('click', closeLightbox);
 
-  // Cerrar con la tecla Escape
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeLightbox();
   });
