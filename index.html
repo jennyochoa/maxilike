@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaxiLike — Aceites y Margarinas para la Industria</title>
+  <style>
+    /* ── Variables ─────────────────────────────────────────────── */
+    :root {
+      --green-dark:   #2e6b35;
+      --green-mid:    #3d8b46;
+      --green-light:  #6aaa5a;
+      --earth:        #8b6914;
+      --cream:        #fdf8f2;
+      --cream-dark:   #ede9e2;
+      --text:         #1e2a1e;
+      --text-muted:   #5a6b5a;
+      --white:        #ffffff;
+      --yellow:       #f5c800;
+      --radius:       12px;
+      --shadow:       0 4px 20px rgba(0,0,0,0.09);
+      --transition:   0.3s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Utility ───────────────────────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      background: rgba(61,139,70,0.10);
+      border-radius: 100px;
+      padding: 4px 14px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800;
+      color: var(--green-dark);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+
+    /* ── Nav ───────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(253,248,242,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .nav-logo img {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--green-dark); }
+
+    .nav-cta {
+      background: var(--green-dark);
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: 100px;
+    }
+
+    .nav-cta:hover { background: var(--green-mid) !important; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--green-dark);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ── Hero ──────────────────────────────────────────────────── */
+    #inicio {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 68px;
+      background: linear-gradient(145deg, #e8f5e9 0%, var(--cream) 60%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #inicio::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(106,170,90,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(139,105,20,0.07) 0%, transparent 60%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 48px;
+      position: relative;
+      z-index: 1;
+      padding: 60px 0;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1px solid rgba(61,139,70,0.2);
+      border-radius: 100px;
+      padding: 6px 16px 6px 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--green-dark);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green-light);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--green-dark);
+      margin-bottom: 20px;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--earth);
+    }
+
+    .hero-text {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--green-dark);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 100px;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(46,107,53,0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--green-mid);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      display: inline-block;
+      border: 2px solid var(--green-dark);
+      color: var(--green-dark);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 12px 28px;
+      border-radius: 100px;
+      transition: var(--transition);
+    }
+
+    .btn-outline:hover {
+      background: var(--green-dark);
+      color: var(--white);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 40px;
+    }
+
+    .hero-stat-value {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--green-dark);
+    }
+
+    .hero-stat-label {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Hero visual — bidón flotante */
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-product-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .hero-product-bg {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(135deg, #c8e6c9 0%, #a5d6a7 40%, #81c784 100%);
+      box-shadow: 0 24px 60px rgba(61,139,70,0.25);
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero-product-img {
+      position: relative;
+      z-index: 1;
+      width: 80%;
+      margin: 0 auto;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,0.18));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-14px); }
+    }
+
+    /* ── Products ──────────────────────────────────────────────── */
+    #productos {
+      padding: 96px 0 32px;
+      text-align: center;
+    }
+
+    #productos .section-sub {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cat-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+
+    .cat-label::before,
+    .cat-label::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(46,107,53,0.3));
+      border-radius: 2px;
+    }
+
+    .cat-label::before {
+      background: linear-gradient(90deg, rgba(46,107,53,0.3), transparent);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
+      justify-content: center;
+      gap: 22px;
+      margin-bottom: 52px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    }
+
+    .product-img {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #fff9e6 0%, #fffde7 100%);
+      overflow: hidden;
+    }
+
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 12px;
+      cursor: zoom-in;
+      transition: transform 0.25s ease;
+    }
+
+    .product-img img:hover {
+      transform: scale(1.06);
+    }
+
+    .product-img.green-bg {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    }
+
+    .product-body { padding: 20px; }
+
+    .product-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--earth);
+      background: rgba(139,105,20,0.1);
+      border-radius: 100px;
+      padding: 3px 10px;
+      margin-bottom: 8px;
+    }
+
+    .product-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .product-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: justify;
+    }
+
+    /* ── Catalog strip ─────────────────────────────────────────── */
+    #catalogo {
+      padding: 0 0 96px;
+    }
+
+    .catalog-inner {
+      background: var(--green-dark);
+      border-radius: 20px;
+      padding: 48px;
+      overflow: hidden;
+    }
+
+    .catalog-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .catalog-header .section-label {
+      color: #a5d6a7;
+      background: rgba(165,214,167,0.15);
+    }
+
+    .catalog-header .section-title {
+      color: var(--white);
+    }
+
+    .catalog-imgs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .catalog-img-wrap {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      transition: var(--transition);
+    }
+
+    .catalog-img-wrap:hover {
+      transform: scale(1.02);
+    }
+
+    .catalog-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── Branches ──────────────────────────────────────────────── */
+    #sucursales {
+      padding: 96px 0;
+      background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 100%);
+    }
+
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .branch-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: var(--transition);
+    }
+
+    .branch-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    }
+
+    .branch-photo {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .branch-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .branch-card:hover .branch-photo img {
+      transform: scale(1.05);
+    }
+
+    .branch-photo-placeholder {
+      height: 200px;
+      background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+
+    .branch-body {
+      padding: 24px;
+      position: relative;
+    }
+
+    .branch-body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 24px; right: 24px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green-dark), var(--green-light));
+      border-radius: 2px;
+    }
+
+    .branch-number {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+      color: var(--white);
+      font-weight: 800;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .branch-name {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      margin-bottom: 14px;
+    }
+
+    .branch-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .branch-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .branch-icon { flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Contact ───────────────────────────────────────────────── */
+    /* ── Contacto CTA ──────────────────────────────────────────── */
+    #contacto { padding: 48px 0 96px; }
+
+    .cta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .cta-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .cta-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.12);
+    }
+
+    .cta-card-photo {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .cta-card-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .cta-card:hover .cta-card-photo img {
+      transform: scale(1.05);
+    }
+
+    .cta-card-photo-placeholder {
+      height: 200px;
+      background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+    }
+
+    .cta-card-body {
+      padding: 28px;
+    }
+
+    .cta-card-name {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      margin-bottom: 16px;
+    }
+
+    .cta-card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .cta-card-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    .map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      border: 1.5px solid var(--green-dark);
+      border-radius: 100px;
+      padding: 2px 10px;
+      margin-left: 4px;
+      white-space: nowrap;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .map-link:hover {
+      background: var(--green-dark);
+      color: var(--white);
+    }
+
+    .cta-wa-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #25d366;
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 24px;
+      border-radius: 100px;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+      text-decoration: none;
+    }
+
+    .cta-wa-btn:hover {
+      background: #1ebe5d;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+    }
+
+    .cta-wa-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--white);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .cta-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Footer ────────────────────────────────────────────────── */
+    footer {
+      background: var(--green-dark);
+      color: rgba(255,255,255,0.8);
+      padding: 48px 0 28px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+
+    .footer-logo {
+      height: 60px;
+      width: auto;
+      object-fit: contain;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+    }
+
+    .footer-brand-text {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      max-width: 280px;
+    }
+
+    .footer-col-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #a5d6a7;
+      margin-bottom: 14px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.7);
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 20px;
+    }
+
+    /* Badge PotriApps */
+    .potriapps-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      padding: 6px 14px 6px 8px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.75);
+      transition: background 0.25s ease, color 0.25s ease;
+      text-decoration: none;
+    }
+
+    .potriapps-badge:hover {
+      background: rgba(255,255,255,0.15);
+      color: #ffffff;
+    }
+
+    .potriapps-badge .disco {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .potriapps-badge strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+    }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 68px; left: 0; right: 0;
+        background: var(--cream);
+        padding: 20px 24px;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        gap: 4px;
+      }
+      .nav-links.open a { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+      .hamburger { display: flex; }
+      .nav-cta { display: none; }
+
+      .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+      .hero-visual { order: -1; }
+      .hero-product-wrap { max-width: 240px; margin: 0 auto; }
+      .hero-stats { gap: 20px; }
+
+      .catalog-inner { padding: 28px 20px; }
+      .catalog-imgs { grid-template-columns: 1fr; }
+
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .form-row { grid-template-columns: 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    /* ── WhatsApp flotante ─────────────────────────────────────── */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 999;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      animation: waBounce 2.5s ease-in-out infinite;
+    }
+
+    .whatsapp-btn:hover {
+      transform: scale(1.12);
+      box-shadow: 0 10px 32px rgba(37,211,102,0.55);
+      animation: none;
+    }
+
+    .whatsapp-btn svg {
+      width: 32px;
+      height: 32px;
+      fill: #ffffff;
+    }
+
+    .whatsapp-tooltip {
+      position: absolute;
+      right: 72px;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+      padding: 7px 14px;
+      border-radius: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .whatsapp-tooltip::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 6px solid transparent;
+      border-right: none;
+      border-left-color: #1a1a1a;
+    }
+
+    .whatsapp-btn:hover .whatsapp-tooltip {
+      opacity: 1;
+    }
+
+    @keyframes waBounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-6px); }
+    }
+
+    /* ── Lightbox ──────────────────────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.88);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      animation: lbFadeIn 0.2s ease;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 88vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      animation: lbZoomIn 0.25s ease;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      color: #fff;
+      font-size: 2rem;
+      font-weight: 300;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+      background: none;
+      border: none;
+    }
+
+    .lightbox-close:hover { opacity: 1; }
+
+    @keyframes lbFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes lbZoomIn {
+      from { transform: scale(0.85); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .whatsapp-btn { bottom: 20px; right: 20px; width: 54px; height: 54px; }
+      .whatsapp-tooltip { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ WhatsApp flotante ═════════════════════════════════════════ -->
+<a
+  class="whatsapp-btn"
+  href="https://api.whatsapp.com/send/?phone=573046786271&text=Quiero+mas+informacion+sobre+aceites&type=phone_number&app_absent=0"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Contactar por WhatsApp"
+>
+  <span class="whatsapp-tooltip">¡Escríbenos!</span>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- ══ Lightbox ══════════════════════════════════════════════════ -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <img id="lightboxImg" src="" alt="Imagen ampliada" />
+</div>
+
+<!-- ══ Nav ══════════════════════════════════════════════════════ -->
+<nav>
+  <div class="container nav-inner">
+    <a href="#inicio" class="nav-logo">
+      <img src="Logo.png" alt="MaxiLike" />
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#contacto">Puntos de venta</a></li>
+      <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ Hero ═════════════════════════════════════════════════════ -->
+<section id="inicio">
+  <div class="container">
+    <div class="hero-grid">
+
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Proveedor industrial confiable
+        </div>
+
+        <h1 class="hero-title">
+          Aceites y margarinas para la <em>industria alimentaria</em>
+        </h1>
+
+        <p class="hero-text">
+          Comercializamos margarinas y aceites vegetales de alta calidad,
+          diseñados para satisfacer las exigencias de la industria de alimentos moderna.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#productos" class="btn-primary">Ver productos</a>
+          <a href="#contacto" class="btn-outline">Cotizar ahora</a>
+        </div>
+
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-value">+15</div>
+            <div class="hero-stat-label">Años de experiencia</div>
+          </div>
+          <div>
+            <div class="hero-stat-value">+5000</div>
+            <div class="hero-stat-label">Clientes</div>
+        </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-product-wrap">
+          <div class="hero-product-bg"></div>
+          <img
+            class="hero-product-img"
+            src="Logo.png"
+            alt="Aceite Vegetal MaxiLike 18L"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Products ══════════════════════════════════════════════════ -->
+<section id="productos">
+  <div class="container">
+    <span class="section-label">Nuestros productos</span>
+    <h2 class="section-title">Línea completa para la industria</h2>
+    <p class="section-sub">
+      Aceites y margarinas vegetales en presentaciones industriales, ideales
+      para distribuidores mayoristas y restaurantes para uso alimentario.
+    </p>
+
+    <!-- Categoría: Aceites -->
+    <div class="cat-label">🛢️ Aceites</div>
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-img">
+          <img src="aceitevegetal.png" alt="Aceite Vegetal Comestible MaxiLike" />
+        </div>
+        <div class="product-body">
+          <span class="product-tag">Aceite</span>
+          <h3 class="product-name">Aceite Vegetal</h3>
+          <p class="product-desc">100% vegetal de origen de Palma y Soya. Presentación bidón 18L, 20L y a granel.</p>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img green-bg">
+          <img src="aceitesolido.png" alt="Aceite Sólido MaxiLike" />
+        </div>
+        <div class="product-body">
+          <span class="product-tag">Aceite</span>
+          <h3 class="product-name">Aceite Sólido de Palma</h3>
+          <p class="product-desc">Aceite sólido multipropósito, excelentes frituras crocantes y doradas, conserva el sabor
+natural del producto freído; no altera el sabor, olor ni color de los alimentos. Caja 15 kg.</p>
+        </div>
+      </div>
+
+
+    </div>
+
+    <!-- Categoría: Margarinas -->
+    <div class="cat-label">🧈 Margarinas</div>
+    <div class="products-grid">
+
+       <div class="product-card">
+        <div class="product-img green-bg">
+          <img src="preparadograso.png" alt="Preparado Graso MaxiLike" />
+          </div>
+        <div class="product-body">
+          <span class="product-tag">Preparado graso</span>
+          <h3 class="product-name">Preparado Graso</h3>
+          <p class="product-desc">Se ajusta a toda clase de formulación, genera un volumen estándar en el batido, panes de
+gran rotación, con miga más suave y uniforme. Especial en pan tipo del día, pan perro, pan
+hamburguesa y panes integrales.Caja 15 kg. </p>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img green-bg">
+          <img src="multiproposito.png" alt="Margarina Multipropósito MaxiLike" />
+          </div>
+        <div class="product-body">
+          <span class="product-tag">Margarina</span>
+          <h3 class="product-name">Margarina Multipropósito</h3>
+          <p class="product-desc">En la elaboración de ponqués, tortas, bizcochería, panes galletas y cocina. Mayor
+rendimiento y funcionalidad, miga más fina y uniforme, aporta un sabor agradable en el
+producto final. Caja 15 kg.</p>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img green-bg">
+          <img src="alinado.png" alt="Aliñado Graso MaxiLike" />
+        </div>
+        <div class="product-body">
+          <span class="product-tag">Margarina</span>
+          <h3 class="product-name">Aliñado Graso</h3>
+          <p class="product-desc">Elaboración de toda clase de panes aportando elasticidad a la masa, miga uniforme, cortezas duras, doradas y atractivas y aumento en la frescura del pan. Su sabor láctico permite resaltar y obtener un mejor sabor. Caja 15 kg.</p>
+        </div>
+      </div>
+</section>
+
+<!-- ══ Contact ═══════════════════════════════════════════════════ -->
+<section id="contacto">
+  <div class="container">
+    <span class="section-label">Contáctenos</span>
+    <h2 class="section-title">¡Escríbanos por WhatsApp!</h2>
+    <p class="section-sub">
+      Estamos listos para atenderle en cualquiera de nuestros puntos de venta. 
+    </p>
+
+    <div class="cta-grid">
+
+      <!-- ── Punto 1: Castilla ── -->
+      <div class="cta-card">
+        <div class="cta-card-photo">
+          <img src="PV castilla.png" alt="Punto de Venta Castilla" />
+        </div>
+        <div class="cta-card-body">
+          <div class="cta-card-name">📍 Punto de Venta Castilla</div>
+          <div class="cta-card-info">
+            <div class="cta-card-row">
+              🏠 Calle 13 # 81D - 37, Bogotá
+              <a class="map-link" href="https://maps.app.goo.gl/6VbYBTeWntmb2VDu9" target="_blank" rel="noopener noreferrer">
+                🗺️ Cómo llegar
+              </a>
+            </div>
+            <div class="cta-card-row">🕐 Lun – Vie: 8:00 am – 5:00 pm · Sáb: 8:00 am – 12:00 pm</div>
+            <div class="cta-card-row">📞 +57 304 678 6271</div>
+          </div>
+          <a
+            class="cta-wa-btn"
+            href="https://api.whatsapp.com/send/?phone=573046786271&text=Quiero+mas+informacion+sobre+aceites+en+el+PV+Castilla&type=phone_number&app_absent=0"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Escribir a Castilla
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Punto 2: Suba ── -->
+      <div class="cta-card">
+        <div class="cta-card-photo-placeholder">🏪</div>
+        <div class="cta-card-body">
+          <div class="cta-card-name">📍 Punto de Venta Suba</div>
+          <div class="cta-card-info">
+            <div class="cta-card-row">
+              🏠 Calle 134 bis # 89A - 58, Bogotá
+              <a class="map-link" href="https://maps.app.goo.gl/Dferq8o1zHyysaYx9" target="_blank" rel="noopener noreferrer">
+                🗺️ Cómo llegar
+              </a>
+            </div>
+            <div class="cta-card-row">🕐 Lun – Vie: 8:00 am – 5:00 pm · Sáb: 8:00 am – 12:00 pm</div>
+            <div class="cta-card-row">📞 +57 322 836 8974</div>
+          </div>
+          <a
+            class="cta-wa-btn"
+            href="https://api.whatsapp.com/send/?phone=573228368974&text=Quiero+mas+informacion+sobre+aceites+en+el+PV+Suba&type=phone_number&app_absent=0"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Escribir a Suba
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ Footer ════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="Logo.png" alt="MaxiLike" class="footer-logo" />
+        <p class="footer-brand-text">
+          Comercializamos margarinas y aceites vegetales para la industria de alimentos,
+          con calidad garantizada y atención personalizada.
+        </p>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Navegación</div>
+        <ul class="footer-links">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#productos">Productos</a></li>
+          <li><a href="#contacto">Puntos de venta</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Productos</div>
+        <ul class="footer-links">
+          <li><a href="#productos">Aceite Vegetal Comestible</a></li>
+          <li><a href="#productos">Aceite Sólido</a></li>
+          <li><a href="#productos">Preparado Graso</a></li>
+          <li><a href="#productos">Margarina Multiproposito</a></li>
+          <li><a href="#productos">Aliñado Graso</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="footer-divider" />
+
+    <div class="footer-bottom">
+      <span>© 2026 MaxiLike. Todos los derechos reservados.</span>
+      <a
+        class="potriapps-badge"
+        href="https://www.instagram.com/jennyochoa8/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="disco">🪩</span>
+        Powered by <strong>PotriApps</strong>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ Script ════════════════════════════════════════════════════ -->
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  document.addEventListener('click', e => {
+    if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+      navLinks.classList.remove('open');
+    }
+  });
+
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const btn = this.querySelector('.form-submit');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+    setTimeout(() => {
+      document.getElementById('formSuccess').style.display = 'block';
+      btn.textContent = 'Enviar mensaje →';
+      btn.disabled = false;
+      this.reset();
+      document.getElementById('formSuccess').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 1200);
+  });
+
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.boxShadow = window.scrollY > 10
+      ? '0 2px 20px rgba(0,0,0,0.1)'
+      : 'none';
+  });
+
+  // ── Lightbox ────────────────────────────────────────────────
+  const lightbox     = document.getElementById('lightbox');
+  const lightboxImg  = document.getElementById('lightboxImg');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  // Al hacer clic en cualquier imagen de producto, abre el lightbox
+  document.querySelectorAll('.product-img img').forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden'; // evita scroll de fondo
+    });
+  });
+
+  // Cerrar al hacer clic en el fondo o en la X
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  lightboxClose.addEventListener('click', closeLightbox);
+
+  // Cerrar con la tecla Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
